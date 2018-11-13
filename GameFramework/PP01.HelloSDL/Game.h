@@ -1,9 +1,12 @@
 #pragma once
 
+#include <vector>
 #include <SDL.h>
 #include "TextureManager.h"
 #include "GameObject.h"
-#include "Player.h"
+#include "Monster.h"
+
+#define MONSTER_NUM 2
 
 class Game
 {
@@ -30,6 +33,6 @@ private:
 
 	int _currentFrame;
 
-	GameObject _go;
-	Player _player;
+	GameObject * _monsters[MONSTER_NUM];
+	std::vector<GameObject*> _gameObjects;
 };

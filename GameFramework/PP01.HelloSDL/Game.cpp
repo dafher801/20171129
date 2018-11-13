@@ -1,7 +1,8 @@
-#include "Game.h"
 #include <iostream>
 #include <SDL_image.h>
 #include <stdio.h>
+#include "Game.h"
+#include "Monster.h"
 
 bool Game::init(const char * title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -26,8 +27,12 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 		return false;
 	}
 
-	_go.load(0, 0, 128, 82, "animate");
-	_player.load(300, 300, 128, 82, "animate");
+	for (int i = 0; i < MONSTER_NUM; i++)
+	{
+		_monsters[i] = new Monster;
+		_monsters[i]->load(0, 100 * (i + 1), 128, 82, "animate");
+		_gameObjects.push_back(_monsters[i]);
+	}
 
 	return true;
 }
@@ -35,15 +40,21 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 void Game::render()
 {
 	SDL_RenderClear(_renderer);
-	_go.draw(_renderer);
-	_player.draw(_renderer);
+
+	for (std::vector<GameObject*>::size_type i = 0; i != _gameObjects.size(); i++)
+	{
+		_gameObjects[i]->draw(_renderer);
+	}
+
 	SDL_RenderPresent(_renderer);
 }
 
 void Game::update()
 {
-	_go.update();
-	_player.update();
+	for (std::vector<GameObject*>::size_type i = 0; i != _gameObjects.size(); i++)
+	{
+		_gameObjects[i]->update();
+	}
 }
 
 void Game::clean()
