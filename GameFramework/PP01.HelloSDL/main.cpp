@@ -14,7 +14,6 @@ int main(int argc, char * argv[])
 		game->render();
 	}
 
-	SDL_Delay(5000);
 	game->clean();
 
 	return 0;
