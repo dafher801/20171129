@@ -10,8 +10,9 @@ Player::Player(const LoaderParams * params)
 
 void Player::update()
 {
-	_x--;
 	_currentFrame = int(((SDL_GetTicks() / 100) % 6));
+	_acceleration.setX(1);
+	SDLGameObject::update();
 }
 
 void Player::clean()

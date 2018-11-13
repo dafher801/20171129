@@ -4,27 +4,29 @@
 
 SDLGameObject::SDLGameObject(const LoaderParams * params)
 	: GameObject(params)
+	, _position(params->getX(), params->getY())
+	, _velocity(0.0f, 0.0f)
+	, _acceleration(0.0f, 0.0f)
 {
-	_x = params->getX();
-	_y = params->getY();
 	_width = params->getWidth();
 	_height = params->getHeight();
 
 	_textureID = params->getTextureID();
 	_currentRow = 1;
 	_currentFrame = 1;
-
 }
 
 void SDLGameObject::draw()
 {
-	TextureManager::Instance()->drawFrame(_textureID, _x, _y,
-		_width, _height, _currentRow, _currentFrame, TheGame::Instance()->getRenderer());
+	TextureManager::Instance()->drawFrame(_textureID, (int)_position.getX(),
+		(int)_position.getY(), _width, _height, _currentRow, _currentFrame, TheGame::Instance()->getRenderer());
 
 }
 
 void SDLGameObject::update()
 {
+	_velocity += _acceleration;
+	_position += _velocity;
 }
 
 void SDLGameObject::clean()
