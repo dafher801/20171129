@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 #include "TextureManager.h"
+#include "GameObject.h"
+#include "Player.h"
 
 class Game
 {
@@ -27,4 +29,7 @@ private:
 	SDL_Rect _destinationRectangle;
 
 	int _currentFrame;
+
+	GameObject _go;
+	Player _player;
 };

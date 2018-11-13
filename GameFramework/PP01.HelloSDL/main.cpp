@@ -6,13 +6,14 @@ Game * game = 0;
 int main(int argc, char * argv[])
 {
 	game = new Game;
-	game->init("PP08.SingletonTM", 100, 100, 640, 480, false);
+	game->init("PP09.Inheritance", 100, 100, 640, 480, false);
 
 	while (game->running())
 	{
 		game->handleEvents();
 		game->update();
 		game->render();
+		SDL_Delay(10);
 	}
 
 	game->clean();
