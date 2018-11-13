@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "TextureManager.h"
 
 Game * game = 0;
 
