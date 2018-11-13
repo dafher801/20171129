@@ -1,4 +1,5 @@
 #pragma once
+
 #include <SDL.h>
 #include "TextureManager.h"
 
@@ -26,5 +27,4 @@ private:
 	SDL_Rect _destinationRectangle;
 
 	int _currentFrame;
-	TextureManager _textureManager;
 };

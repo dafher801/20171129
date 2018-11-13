@@ -1,5 +1,18 @@
 #include "TextureManager.h"
 
+TheTextureManager * TheTextureManager::_instance = nullptr;
+
+TextureManager * TextureManager::Instance()
+{
+	if (_instance == 0)
+	{
+		_instance = new TextureManager();
+		return _instance;
+	}
+
+	return _instance;
+}
+
 bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer * renderer)
 {
 	SDL_Surface * tempSurface = IMG_Load(fileName.c_str());
@@ -14,10 +27,10 @@ bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer * r
 	if (texture != nullptr)
 	{
 		_textureMap[id] = texture;
-		return false;
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 void TextureManager::draw(std::string id, int x, int y, int width, int height,
