@@ -2,7 +2,13 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include "Game.h"
-#include "Monster.h"
+#include "Player.h"
+#include "Enemy.h"
+
+Game * Game::_instance = 0;
+
+Game::Game()
+	: _running(true) {}
 
 bool Game::init(const char * title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -27,12 +33,8 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 		return false;
 	}
 
-	for (int i = 0; i < MONSTER_NUM; i++)
-	{
-		_monsters[i] = new Monster;
-		_monsters[i]->load(0, 100 * (i + 1), 128, 82, "animate");
-		_gameObjects.push_back(_monsters[i]);
-	}
+	_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 82, "animate")));
+	_gameObjects.push_back(new Enemy(new LoaderParams(300, 300, 128, 82, "animate")));
 
 	return true;
 }
@@ -43,7 +45,7 @@ void Game::render()
 
 	for (std::vector<GameObject*>::size_type i = 0; i != _gameObjects.size(); i++)
 	{
-		_gameObjects[i]->draw(_renderer);
+		_gameObjects[i]->draw();
 	}
 
 	SDL_RenderPresent(_renderer);
@@ -79,4 +81,20 @@ void Game::handleEvents()
 			break;
 		}
 	}
+}
+
+SDL_Renderer * Game::getRenderer() const
+{
+	return _renderer;
+}
+
+Game * Game::Instance()
+{
+	if (_instance == 0)
+	{
+		_instance = new Game();
+		return _instance;
+	}
+
+	return _instance;
 }

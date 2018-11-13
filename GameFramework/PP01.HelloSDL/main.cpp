@@ -1,22 +1,28 @@
 #include "Game.h"
 #include "TextureManager.h"
 
-Game * game = 0;
-
 int main(int argc, char * argv[])
 {
-	game = new Game;
-	game->init("PP010.Polymorphism", 100, 100, 640, 480, false);
+	std::cout << "game init attempt...\n";
 
-	while (game->running())
+	if (TheGame::Instance()->init("Chapter 1", 100, 100, 640, 480, false))
 	{
-		game->handleEvents();
-		game->update();
-		game->render();
-		SDL_Delay(10);
+		std::cout << "game init success!\n";
+		while (TheGame::Instance()->running())
+		{
+			TheGame::Instance()->handleEvents();
+			TheGame::Instance()->update();
+			TheGame::Instance()->render();
+			SDL_Delay(10);
+		}
+	}
+	else
+	{
+		std::cout << "game init failure - " << SDL_GetError() << "\n";
+		return -1;
 	}
 
-	game->clean();
-
+	std::cout << "game closing...\n";
+	TheGame::Instance()->clean();
 	return 0;
 }

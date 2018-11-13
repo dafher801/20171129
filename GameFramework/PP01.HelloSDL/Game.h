@@ -4,14 +4,11 @@
 #include <SDL.h>
 #include "TextureManager.h"
 #include "GameObject.h"
-#include "Monster.h"
-
-#define MONSTER_NUM 2
 
 class Game
 {
 public:
-	Game() :_running(true) {}
+
 	~Game() {}
 
 	bool init(const char * title, int xpos, int ypos, int width, int height, bool fullscreen);
@@ -22,7 +19,14 @@ public:
 
 	void handleEvents();
 
+	SDL_Renderer * getRenderer() const;
+
+	static Game * Instance();
+
 private:
+
+	Game();
+
 	SDL_Window * _window;
 	SDL_Renderer * _renderer;
 	bool _running;
@@ -33,6 +37,9 @@ private:
 
 	int _currentFrame;
 
-	GameObject * _monsters[MONSTER_NUM];
 	std::vector<GameObject*> _gameObjects;
+
+	static Game * _instance;
 };
+
+typedef Game TheGame;

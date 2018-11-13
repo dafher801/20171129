@@ -2,13 +2,14 @@
 
 #include <iostream>
 #include <SDL.h>
-#include "GameObject.h"
+#include "SDLGameObject.h"
 
-class Enemy : public GameObject
+class Enemy : public SDLGameObject
 {
 public:
-	void load(int x, int y, int width, int height, std::string textureID);
-	void draw(SDL_Renderer * renderer);
+	Enemy(const LoaderParams * params);
+
+	void draw();
 	void update();
 	void clean();
 };
