@@ -68,6 +68,7 @@ void Game::clean()
 
 void Game::quit()
 {
+	_running = false;
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();
