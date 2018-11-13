@@ -61,6 +61,13 @@ void Game::update()
 
 void Game::clean()
 {
+	TheInputHandler::Instance()->clean();
+
+	quit();
+}
+
+void Game::quit()
+{
 	SDL_DestroyWindow(_window);
 	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();
@@ -68,19 +75,7 @@ void Game::clean()
 
 void Game::handleEvents()
 {
-	SDL_Event event;
-
-	if (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-		case SDL_QUIT:
-			_running = false;
-			break;
-		default:
-			break;
-		}
-	}
+	TheInputHandler::Instance()->update();
 }
 
 SDL_Renderer * Game::getRenderer() const

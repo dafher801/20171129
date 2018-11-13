@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "InputHandler.h"
 
 class Game
 {
@@ -15,6 +16,7 @@ public:
 	void render();
 	void update();
 	void clean();
+	void quit();
 	bool running() { return _running; }
 
 	void handleEvents();
