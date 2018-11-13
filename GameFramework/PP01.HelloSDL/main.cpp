@@ -1,53 +1,21 @@
-#include <SDL.h>
+#include "Game.h"
 
-SDL_Window * g_pWindow = nullptr;
-SDL_Renderer * g_pRenderer = nullptr;
+Game * game = 0;
 
-bool g_bRunning = false;
-
-bool init(const char * title, int xpos, int ypos, int width, int height, int flags)
+int main(int argc, char * argv[])
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) >= 0)
+	game = new Game;
+	game->init("Chapter 1", 100, 100, 640, 480, false);
+
+	while (game->running())
 	{
-		g_pWindow = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-
-		if (g_pWindow != nullptr)
-			g_pRenderer = SDL_CreateRenderer(g_pWindow, -1, 0);
-	}
-	else
-		return false;
-
-	return true;
-}
-
-void render()
-{
-	SDL_SetRenderDrawColor(g_pRenderer, 0, 0, 0, 255);
-	SDL_RenderClear(g_pRenderer);
-	SDL_RenderPresent(g_pRenderer);
-}
-
-void update() {}
-void handleEvents() {}
-void clean() {}
-
-int main(int argc, char * args[])
-{
-	if (init("Chapter 1 : Setting up SDL",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		640, 480, SDL_WINDOW_SHOWN))
-	{
-		g_bRunning = true;
-	}
-	else
-		return 1;
-
-	while (g_bRunning)
-	{
-		render();
+		game->handleEvents();
+		game->update();
+		game->render();
 	}
 
-	SDL_Quit();
+	SDL_Delay(5000);
+	game->clean();
+
 	return 0;
 }
