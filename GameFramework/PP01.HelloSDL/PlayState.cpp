@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include "Game.h"
 #include "Player.h"
+#include "PauseState.h"
 
 PlayState * PlayState::_instance = nullptr;
 const std::string PlayState::_playID = "PLAY";
@@ -16,14 +17,17 @@ PlayState * PlayState::Instance()
 
 void PlayState::update()
 {
-	for (int i = 0; i < _gameObjects.size(); i++)
-		_gameObjects[i]->update();
+	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
+	{
+		TheGame::Instance()->getStateMachine()->pushState(PauseState::Instance());
+	}
+
+	GameState::update();
 }
 
 void PlayState::render()
 {
-	for(int i =0; i < _gameObjects.size(); i++)
-		_gameObjects[i]->draw();
+	GameState::render();
 }
 
 bool PlayState::onEnter()
@@ -43,10 +47,7 @@ bool PlayState::onEnter()
 
 bool PlayState::onExit()
 {
-	for (int i = 0; i < _gameObjects.size(); i++)
-		_gameObjects[i]->clean();
-
-	_gameObjects.clear();
+	GameState::onExit();
 
 	TheTextureManager::Instance()->clearFromTextureMap("helicopter");
 	return true;

@@ -120,3 +120,9 @@ void InputHandler::onMouseButtonUp(SDL_Event event)
 		break;
 	}
 }
+
+void InputHandler::reset()
+{
+	for (int i = 0; i < m_mouseButtonStates.size(); i++)
+		m_mouseButtonStates[i] = false;
+}

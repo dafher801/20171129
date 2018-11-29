@@ -30,6 +30,8 @@ public:
 	void onMouseButtonDown(SDL_Event event);
 	void onMouseButtonUp(SDL_Event event);
 
+	void reset();
+
 private:
 	InputHandler();
 	~InputHandler() {}

@@ -17,6 +17,4 @@ public:
 private:
 	static PlayState * _instance;
 	static const std::string _playID;
-
-	std::vector<SDLGameObject*> _gameObjects;
 };

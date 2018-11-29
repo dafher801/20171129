@@ -17,14 +17,12 @@ MenuState * MenuState::Instance()
 
 void MenuState::update()
 {
-	for (int i = 0; i < _gameObjects.size(); i++)
-		_gameObjects[i]->update();
+	GameState::update();
 }
 
 void MenuState::render()
 {
-	for (int i = 0; i < _gameObjects.size(); i++)
-		_gameObjects[i]->draw();
+	GameState::render();
 }
 
 bool MenuState::onEnter()
@@ -53,10 +51,7 @@ bool MenuState::onEnter()
 
 bool MenuState::onExit()
 {
-	for (int i = 0; i < _gameObjects.size(); i++)
-		_gameObjects[i]->clean();
-
-	_gameObjects.clear();
+	GameState::onExit();
 
 	TheTextureManager::Instance()->clearFromTextureMap("playbutton");
 	TheTextureManager::Instance()->clearFromTextureMap("exitbutton");

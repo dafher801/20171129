@@ -21,3 +21,4 @@ private:
 	static const std::string _menuID;
 	static MenuState * _instance;
 };
+
