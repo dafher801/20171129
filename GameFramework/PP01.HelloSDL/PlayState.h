@@ -15,6 +15,8 @@ public:
 	virtual std::string getStateID() const;
 
 private:
-	static const std::string _playID;
 	static PlayState * _instance;
+	static const std::string _playID;
+
+	std::vector<SDLGameObject*> _gameObjects;
 };

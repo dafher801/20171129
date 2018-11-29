@@ -1,4 +1,7 @@
 #include "PlayState.h"
+#include "TextureManager.h"
+#include "Game.h"
+#include "Player.h"
 
 PlayState * PlayState::_instance = nullptr;
 const std::string PlayState::_playID = "PLAY";
@@ -13,21 +16,39 @@ PlayState * PlayState::Instance()
 
 void PlayState::update()
 {
+	for (int i = 0; i < _gameObjects.size(); i++)
+		_gameObjects[i]->update();
 }
 
 void PlayState::render()
 {
+	for(int i =0; i < _gameObjects.size(); i++)
+		_gameObjects[i]->draw();
 }
 
 bool PlayState::onEnter()
 {
-	std::cout << "entering PlayState" << std::endl;
+	if (!TheTextureManager::Instance()->load(
+		"assets/helicopter.png", "helicopter",
+		TheGame::Instance()->getRenderer()))
+	{
+		return false;
+	}
+
+	SDLGameObject * player = new Player(new LoaderParams(100, 100, 128, 55, "helicopter"));
+	_gameObjects.push_back(player);
+
 	return true;
 }
 
 bool PlayState::onExit()
 {
-	std::cout << "exiting PlayState" << std::endl;
+	for (int i = 0; i < _gameObjects.size(); i++)
+		_gameObjects[i]->clean();
+
+	_gameObjects.clear();
+
+	TheTextureManager::Instance()->clearFromTextureMap("helicopter");
 	return true;
 }
 
