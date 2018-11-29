@@ -3,6 +3,7 @@
 #include "MenuState.h"
 #include "MenuButton.h"
 
+PauseState * PauseState::_instance = nullptr;
 const std::string PauseState::_pauseID = "PAUSE";
 
 PauseState * PauseState::Instance()

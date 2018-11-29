@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDLGameObject.h"
+#include "GameState.h"
 
 #include <vector>
 
