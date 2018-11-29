@@ -1,7 +1,7 @@
 #include "InputHandler.h"
 #include "Game.h"
 
-InputHandler * InputHandler::_instance = 0;
+InputHandler * InputHandler::_instance = nullptr;
 
 InputHandler::InputHandler()
 {

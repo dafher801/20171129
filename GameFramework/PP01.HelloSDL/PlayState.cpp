@@ -1,5 +1,16 @@
 #include "PlayState.h"
 
+PlayState * PlayState::_instance = nullptr;
+const std::string PlayState::_playID = "PLAY";
+
+PlayState * PlayState::Instance()
+{
+	if (!_instance)
+		_instance = new PlayState;
+
+	return _instance;
+}
+
 void PlayState::update()
 {
 }

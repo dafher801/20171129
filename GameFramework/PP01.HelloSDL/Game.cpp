@@ -1,11 +1,14 @@
-#include <iostream>
-#include <SDL_image.h>
-#include <stdio.h>
 #include "Game.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "MenuState.h"
+#include "PlayState.h"
 
-Game * Game::_instance = 0;
+#include <iostream>
+#include <SDL_image.h>
+#include <stdio.h>
+
+Game * Game::_instance = nullptr;
 
 Game::Game()
 	: _running(true) {}
@@ -28,35 +31,21 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 	SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
 
-	if (!TheTextureManager::Instance()->load("assets/animate-alpha.png", "animate", _renderer))
-	{
-		return false;
-	}
-
-	_gameObjects.push_back(new Player(new LoaderParams(100, 100, 128, 82, "animate")));
-	_gameObjects.push_back(new Enemy(new LoaderParams(300, 300, 128, 82, "animate")));
-
+	_gameStateMachine = new GameStateMachine;
+	_gameStateMachine->changeState(MenuState::Instance());
 	return true;
+}
+
+void Game::update()
+{
+	_gameStateMachine->update();
 }
 
 void Game::render()
 {
 	SDL_RenderClear(_renderer);
-
-	for (std::vector<GameObject*>::size_type i = 0; i != _gameObjects.size(); i++)
-	{
-		_gameObjects[i]->draw();
-	}
-
+	_gameStateMachine->render();
 	SDL_RenderPresent(_renderer);
-}
-
-void Game::update()
-{
-	for (std::vector<GameObject*>::size_type i = 0; i != _gameObjects.size(); i++)
-	{
-		_gameObjects[i]->update();
-	}
 }
 
 void Game::clean()
@@ -77,6 +66,9 @@ void Game::quit()
 void Game::handleEvents()
 {
 	TheInputHandler::Instance()->update();
+	
+	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN))
+		_gameStateMachine->changeState(PlayState::Instance());
 }
 
 SDL_Renderer * Game::getRenderer() const
@@ -84,13 +76,15 @@ SDL_Renderer * Game::getRenderer() const
 	return _renderer;
 }
 
+GameStateMachine * Game::getStateMachine() const
+{
+	return _gameStateMachine;
+}
+
 Game * Game::Instance()
 {
-	if (_instance == 0)
-	{
-		_instance = new Game();
-		return _instance;
-	}
+	if (!_instance)
+		_instance = new Game;
 
 	return _instance;
 }
