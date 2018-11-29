@@ -4,7 +4,7 @@
 #include "MenuButton.h"
 #include "PlayState.h"
 
-MenuState * MenuState::_instance = 0;
+MenuState * MenuState::_instance = nullptr;
 const std::string MenuState::_menuID = "MENU";
 
 MenuState * MenuState::Instance()
