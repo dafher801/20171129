@@ -14,6 +14,8 @@ public:
 
 	virtual std::string getStateID() const;
 
+	bool checkCollision(SDLGameObject * p1, SDLGameObject * p2);
+
 private:
 	static PlayState * _instance;
 	static const std::string _playID;
