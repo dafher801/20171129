@@ -16,7 +16,7 @@ void Player::update()
 	_velocity.setY(0);
 	handleInput();
 
-	_currentFrame = int(((SDL_GetTicks() / 100) % 6));
+	_currentFrame = int(((SDL_GetTicks() / 100) % 5));
 	SDLGameObject::update();
 
 	if (TheInputHandler::Instance()->getMouseButtonState(LEFT))

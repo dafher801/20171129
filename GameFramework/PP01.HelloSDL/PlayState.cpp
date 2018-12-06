@@ -19,27 +19,26 @@ PlayState * PlayState::Instance()
 
 void PlayState::update()
 {
-	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
-	{
-		TheGame::Instance()->getStateMachine()->pushState(PauseState::Instance());
-	}
-
-	for (int i = 0; i < _gameObjects.size(); i++)
-		_gameObjects[i]->update();
-
 	if (checkCollision(
 		dynamic_cast<SDLGameObject*>(_gameObjects[0]),
 		dynamic_cast<SDLGameObject*>(_gameObjects[1])))
 	{
-		TheGame::Instance()->getStateMachine()->pushState(new GameOverState());
+		TheGame::Instance()->getStateMachine()->changeState(GameOverState::Instance());
 	}
 
-	GameState::update();
+	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
+	{
+		TheGame::Instance()->getStateMachine()->changeState(PauseState::Instance());
+	}
+
+	for (int i = 0; i < _gameObjects.size(); i++)
+		_gameObjects[i]->update();
 }
 
 void PlayState::render()
 {
-	GameState::render();
+	for (int i = 0; i < _gameObjects.size(); i++)
+		_gameObjects[i]->draw();
 }
 
 bool PlayState::onEnter()

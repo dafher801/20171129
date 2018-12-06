@@ -13,7 +13,7 @@ SDLGameObject::SDLGameObject(const LoaderParams * params)
 
 	_textureID = params->getTextureID();
 	_currentRow = 1;
-	_currentFrame = 1;
+	_currentFrame = 0;
 }
 
 void SDLGameObject::draw()
