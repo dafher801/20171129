@@ -32,7 +32,7 @@ void Player::update()
 	{
 		next_time = now + TICK;
 		BulletManager::Instance()->shootBullet(new Bullet(
-			new LoaderParams(_position.getX(), 500, 50, 50, "PlayerBullet"), Vector2D(0, -10)));
+			new LoaderParams(_position.getX() + _width / 4, 450, 50, 50, "PlayerBullet"), Vector2D(0, -10)));
 	}
 
 	for (Bullet * iter : BulletManager::Instance()->getBullets())

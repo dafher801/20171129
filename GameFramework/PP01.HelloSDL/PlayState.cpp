@@ -42,7 +42,7 @@ void PlayState::render()
 bool PlayState::onEnter()
 {
 	if (!TheTextureManager::Instance()->load(
-		"assets/plate.png", "plate", TheGame::Instance()->getRenderer()))
+		"assets/airPlane.png", "airPlane", TheGame::Instance()->getRenderer()))
 	{
 		return false;
 	}
@@ -59,7 +59,7 @@ bool PlayState::onEnter()
 		return false;
 	}
 
-	SDLGameObject * player = new Player(new LoaderParams(500, 550, 128, 55, "plate"));
+	SDLGameObject * player = new Player(new LoaderParams(500, 500, 128, 100, "airPlane"));
 	_gameObjects.push_back(player);
 
 	SDLGameObject * enemy = new Enemy(new LoaderParams(500, 0, 128, 55, "helicopter"));
