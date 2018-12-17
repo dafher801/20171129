@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "MenuState.h"
 #include "PlayState.h"
+#include "TextureManager.h"
 
 #include <iostream>
 #include <SDL_image.h>
@@ -33,6 +34,13 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 	_gameStateMachine = new GameStateMachine;
 	_gameStateMachine->changeState(MenuState::Instance());
+
+	if (!TheTextureManager::Instance()->load(
+		"assets/background.jpg", "background", TheGame::Instance()->getRenderer()))
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -44,6 +52,7 @@ void Game::update()
 void Game::render()
 {
 	SDL_RenderClear(_renderer);
+	TextureManager::Instance()->draw("background", 0, 0, 800, 600, _renderer);
 	_gameStateMachine->render();
 	SDL_RenderPresent(_renderer);
 }

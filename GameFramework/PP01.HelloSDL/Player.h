@@ -14,6 +14,10 @@ public:
 	void update();
 	void clean();
 
+	int getHP() const;
+
 private:
 	void handleInput();
+
+	int _HP;
 };

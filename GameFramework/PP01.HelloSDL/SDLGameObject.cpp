@@ -34,8 +34,6 @@ void SDLGameObject::draw()
 
 void SDLGameObject::update()
 {
-
-
 	_velocity += _acceleration;
 	_position += _velocity;
 }

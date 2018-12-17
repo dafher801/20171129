@@ -38,8 +38,8 @@ bool PauseState::onEnter()
 		return false;
 	}
 
-	SDLGameObject * button1 = new MenuButton(new LoaderParams(200, 100, 200, 80, "mainbutton"), _pauseToMain);
-	SDLGameObject * button2 = new MenuButton(new LoaderParams(200, 300, 200, 80, "resumebutton"), _resumePlay);
+	SDLGameObject * button1 = new MenuButton(new LoaderParams(200, 150, 200, 80, "mainbutton"), _pauseToMain);
+	SDLGameObject * button2 = new MenuButton(new LoaderParams(200, 350, 200, 80, "resumebutton"), _resumePlay);
 
 	_gameObjects.push_back(button1);
 	_gameObjects.push_back(button2);

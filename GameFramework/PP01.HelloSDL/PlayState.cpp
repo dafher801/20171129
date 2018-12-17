@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "PauseState.h"
 #include "GameOverState.h"
+#include "BulletManager.h"
 
 PlayState * PlayState::_instance = nullptr;
 const std::string PlayState::_playID = "PLAY";
@@ -19,13 +20,6 @@ PlayState * PlayState::Instance()
 
 void PlayState::update()
 {
-	if (checkCollision(
-		dynamic_cast<SDLGameObject*>(_gameObjects[0]),
-		dynamic_cast<SDLGameObject*>(_gameObjects[1])))
-	{
-		TheGame::Instance()->getStateMachine()->changeState(GameOverState::Instance());
-	}
-
 	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE))
 	{
 		TheGame::Instance()->getStateMachine()->changeState(PauseState::Instance());
@@ -33,34 +27,42 @@ void PlayState::update()
 
 	for (int i = 0; i < _gameObjects.size(); i++)
 		_gameObjects[i]->update();
+
+	BulletManager::Instance()->update();
 }
 
 void PlayState::render()
 {
 	for (int i = 0; i < _gameObjects.size(); i++)
 		_gameObjects[i]->draw();
+
+	BulletManager::Instance()->draw();
 }
 
 bool PlayState::onEnter()
 {
 	if (!TheTextureManager::Instance()->load(
-		"assets/helicopter.png", "helicopter",
-		TheGame::Instance()->getRenderer()))
+		"assets/plate.png", "plate", TheGame::Instance()->getRenderer()))
 	{
 		return false;
 	}
 
 	if (!TheTextureManager::Instance()->load(
-		"assets/helicopter2.png", "helicopter2",
-		TheGame::Instance()->getRenderer()))
+		"assets/helicopter.png", "helicopter", TheGame::Instance()->getRenderer()))
 	{
 		return false;
 	}
 
-	SDLGameObject * player = new Player(new LoaderParams(500, 100, 128, 55, "helicopter"));
-	SDLGameObject * enemy = new Enemy(new LoaderParams(100, 100, 128, 55, "helicopter2"));
+	if (!TheTextureManager::Instance()->load(
+		"assets/PlayerBullet.png", "PlayerBullet", TheGame::Instance()->getRenderer()))
+	{
+		return false;
+	}
 
+	SDLGameObject * player = new Player(new LoaderParams(500, 550, 128, 55, "plate"));
 	_gameObjects.push_back(player);
+
+	SDLGameObject * enemy = new Enemy(new LoaderParams(500, 0, 128, 55, "helicopter"));
 	_gameObjects.push_back(enemy);
 
 	return true;

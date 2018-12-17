@@ -40,9 +40,9 @@ bool MenuState::onEnter()
 	}
 
 	SDLGameObject * button1 = new MenuButton(
-		new LoaderParams(100, 100, 400, 100, "playbutton"), _menuToPlay);
+		new LoaderParams(200, 150, 400, 100, "playbutton"), _menuToPlay);
 	SDLGameObject * button2 = new MenuButton(
-		new LoaderParams(100, 300, 400, 100, "exitbutton"), _exitFromMenu);
+		new LoaderParams(200, 350, 400, 100, "exitbutton"), _exitFromMenu);
 
 	_gameObjects.push_back(button1);
 	_gameObjects.push_back(button2);

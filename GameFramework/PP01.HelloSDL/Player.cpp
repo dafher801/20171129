@@ -1,27 +1,50 @@
 #include "Player.h"
 #include "Vector2D.h"
 #include "InputHandler.h"
+#include "BulletManager.h"
+#include "PlayState.h"
+#include "Game.h"
+#include "GameOverState.h"
+
+#define TICK 200
 
 void Player::draw()
 {
-	SDLGameObject::draw();
+	TextureManager::Instance()->draw(_textureID, (int)_position.getX(),
+		(int)_position.getY(), _width, _height, TheGame::Instance()->getRenderer());
 }
 
 Player::Player(const LoaderParams * params)
-	: SDLGameObject(params) {}
+	: SDLGameObject(params)
+	, _HP(5) {}
 
 void Player::update()
 {
-	_velocity.setX(0);
-	_velocity.setY(0);
 	handleInput();
-
-	_currentFrame = int(((SDL_GetTicks() / 100) % 5));
 	SDLGameObject::update();
 
-	if (TheInputHandler::Instance()->getMouseButtonState(LEFT))
+	static Uint32 next_time = 0;
+	Uint32 now;
+
+	now = SDL_GetTicks();
+
+	if (next_time <= now)
 	{
-		_velocity.setX(1);
+		next_time = now + TICK;
+		BulletManager::Instance()->shootBullet(new Bullet(
+			new LoaderParams(_position.getX(), 500, 50, 50, "PlayerBullet"), Vector2D(0, -10)));
+	}
+
+	for (Bullet * iter : BulletManager::Instance()->getBullets())
+	{
+		if (PlayState::Instance()->checkCollision(this, iter))
+		{
+			_HP--;
+			BulletManager::Instance()->deleteBullet(iter);
+
+			if (_HP <= 0)
+				TheGame::Instance()->getStateMachine()->changeState(GameOverState::Instance());
+		}
 	}
 }
 
@@ -29,21 +52,20 @@ void Player::clean()
 {
 }
 
+int Player::getHP() const
+{
+	return _HP;
+}
+
 void Player::handleInput()
 {
 	Vector2D * target = TheInputHandler::Instance()->getMousePosition();
-	_velocity = *target - _position;
-	_velocity /= 50;
 
-	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT))
-		_velocity.setX(2);
+	if (target->getX() < 0)
+		_position.setX(0);
 
-	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT))
-		_velocity.setX(-2);
+	_position.setX(target->getX());
 
-	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP))
-		_velocity.setY(-2);
-
-	if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN))
-		_velocity.setY(2);
+	if (_position.getX() > 700)
+		_position.setX(700);
 }

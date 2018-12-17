@@ -12,4 +12,7 @@ public:
 	void draw();
 	void update();
 	void clean();
+
+private:
+	int _HP;
 };
